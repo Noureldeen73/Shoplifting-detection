@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theft Detection - Home</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'polls/style.css' %}" />
+  </head>
+  <body class="index-body">
+    <div class="container">
+      <h1>🛡️ AI-Powered Theft Detection System</h1>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number">99%</div>
+          <div>Accuracy</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">&lt;5s</div>
+          <div>Processing Time</div>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎥</div>
+          <h3>Video Analysis</h3>
+          <p>
+            Upload security camera footage for real-time theft detection using
+            advanced AI algorithms.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>AI-Powered Detection</h3>
+          <p>
+            Our machine learning models analyze behavior patterns to identify
+            suspicious activities.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast Results</h3>
+          <p>
+            Get instant analysis results with confidence scores and detailed
+            reports.
+          </p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: 40px 0">
+        <a href="{% url 'upload_video' %}" class="cta-button"
+          >🚀 Start Analysis</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

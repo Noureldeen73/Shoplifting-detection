@@ -1,0 +1,15 @@
+# Core Django
+Django>=4.2.0
+
+# Video processing
+opencv-python>=4.8.0
+
+# Machine Learning
+tensorflow>=2.13.0
+numpy>=1.24.0
+
+# Optional: for better video codec support
+opencv-python-headless>=4.8.0
+
+# Development
+python-decouple>=3.8

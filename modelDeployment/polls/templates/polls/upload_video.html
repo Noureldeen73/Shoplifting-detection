@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theft Detection System</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'polls/style.css' %}" />
+  </head>
+  <body class="upload-body">
+    <div class="upload-container">
+      <h1>🔍 Theft Detection System</h1>
+
+      <form
+        id="uploadForm"
+        method="post"
+        enctype="multipart/form-data"
+        class="upload-form">
+        {% csrf_token %}
+        <h3>Upload Video for Analysis</h3>
+        <p>Select a video file to analyze for potential theft activity</p>
+        <input
+          type="file"
+          name="video"
+          id="videoFile"
+          accept="video/*"
+          required />
+        <br />
+        <input type="submit" value="🚀 Analyze Video" />
+      </form>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Analyzing video... Please wait</p>
+      </div>
+
+      <div class="result" id="result">
+        <h3>Analysis Result</h3>
+        <div id="resultContent"></div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const loading = document.getElementById("loading");
+          const result = document.getElementById("result");
+          const resultContent = document.getElementById("resultContent");
+
+          // Show loading spinner
+          loading.style.display = "block";
+          result.style.display = "none";
+
+          fetch('{% url "upload_video" %}', {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              loading.style.display = "none";
+              result.style.display = "block";
+
+              if (data.success) {
+                result.className = "result success";
+                resultContent.innerHTML = `
+                        <h4>✅ Analysis Complete</h4>
+                        <p><strong>File:</strong> ${data.filename}</p>
+                        <p><strong>Theft Detected:</strong> ${
+                          data.theft_detected ? "⚠️ YES" : "✅ NO"
+                        }</p>
+                        <p><strong>Confidence:</strong> ${(
+                          data.confidence * 100
+                        ).toFixed(2)}%</p>
+                        <p><strong>Status:</strong> ${data.message}</p>
+                    `;
+              } else {
+                result.className = "result error";
+                resultContent.innerHTML = `
+                        <h4>❌ Analysis Failed</h4>
+                        <p>${data.error || "Unknown error occurred"}</p>
+                    `;
+              }
+            })
+            .catch((error) => {
+              loading.style.display = "none";
+              result.style.display = "block";
+              result.className = "result error";
+              resultContent.innerHTML = `
+                    <h4>❌ Error</h4>
+                    <p>Failed to upload or analyze video: ${error.message}</p>
+                `;
+            });
+        });
+    </script>
+  </body>
+</html>

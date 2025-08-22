@@ -1,0 +1,4 @@
+.venv
+transformer_model.h5
+lstm_model.h5
+__pycache__/
